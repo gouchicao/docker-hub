@@ -1,0 +1,26 @@
+FROM tensorflow/tensorflow:2.2.0-gpu-jupyter
+LABEL maintainer="wang-junjian@qq.com"
+
+#auto install tzdata(opencv depend)
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y \
+    git wget nano \
+    libopencv-dev python3-opencv \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN pip3 install --no-cache-dir easydict Pillow
+
+#set your localtime
+RUN ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+WORKDIR /
+RUN git clone https://github.com/hunglc007/tensorflow-yolov4-tflite.git
+
+WORKDIR /tensorflow-yolov4-tflite/data
+RUN wget https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights
+
+WORKDIR /tensorflow-yolov4-tflite
+
+#Test
+#python detect.py --weights ./data/yolov4.weights --framework tf --size 512 --image ./data/kite.jpg
