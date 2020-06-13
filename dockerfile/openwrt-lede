@@ -1,0 +1,29 @@
+FROM ubuntu:18.04
+LABEL maintainer="wang-junjian@qq.com"
+
+RUN apt-get update && apt-get install -y \
+    build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev \
+    patch python3.5 python2.7 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex \
+    uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev \
+    xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler \
+    g++-multilib antlr3 gperf wget \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /
+RUN git clone https://github.com/coolsnowwolf/lede && cd lede/
+
+# Enable SSR Plus
+RUN sed -i 's/#src-git helloworld/src-git helloworld/g' feeds.conf.default
+RUN ./scripts/feeds update -a && \
+    ./scripts/feeds install -a
+
+RUN make menuconfig
+
+# -j The number behind is the number of threads
+# Download dl library
+RUN make -j$(($(nproc) + 1)) download V=s
+
+# Compile the firmware
+RUN make -j$(($(nproc) + 1)) V=s
+
+WORKDIR /lede

@@ -1,0 +1,7 @@
+FROM alpine
+LABEL maintainer="wang-junjian@qq.com"
+
+WORKDIR /
+ADD ./lede/bin /lede/
+
+WORKDIR /lede
