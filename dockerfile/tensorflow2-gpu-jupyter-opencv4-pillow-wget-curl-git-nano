@@ -1,0 +1,18 @@
+FROM tensorflow/tensorflow:2.2.0-gpu-jupyter
+LABEL maintainer="wang-junjian@qq.com"
+
+#auto install tzdata(opencv depend)
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y \
+    git wget curl nano \
+    cmake tree htop g++ \
+    libglib2.0-0 libsm6 libxext6 libxrender-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN pip3 install --no-cache-dir opencv-python opencv-contrib-python Pillow
+
+#set your localtime
+RUN ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+WORKDIR /

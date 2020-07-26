@@ -1,0 +1,10 @@
+FROM gouchicao/tensorflow:2.2.0-gpu-jupyter-opencv4-pillow-wget-curl-git-nano
+LABEL maintainer="wang-junjian@qq.com"
+
+WORKDIR /
+RUN git clone https://github.com/fizyr/keras-retinanet.git
+
+WORKDIR /keras-retinanet
+RUN sed -i 's/keras/keras==2.3.1/g' requirements.txt
+RUN pip install .
+RUN python setup.py build_ext --inplace
