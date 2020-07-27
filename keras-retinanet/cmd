@@ -1,0 +1,21 @@
+# 构建容器镜像
+sudo docker build -t gouchicao/keras-retinanet .
+
+# 上传容器镜像
+sudo docker push gouchicao/keras-retinanet:latest
+
+# 运行容器
+sudo docker run -it --runtime=nvidia --name=keras-retinanet -p 8888:8888 -p 8008:8008 \
+                -v /home/wjunjian/ailab/datasets/helmet/tmp:/keras-retinanet/project \
+                gouchicao/keras-retinanet bash
+# 删除容器
+sudo docker rm keras-retinanet
+
+
+# 容器内操作
+## voc转csv格式
+python voc2csv.py --data_dir=project/labelimg/ --output_dir=project/dataset
+
+## 模型训练
+python keras_retinanet/bin/train.py --snapshot-path project/models \
+    csv project/dataset/train.csv project/dataset/class.csv --val-annotations project/dataset/val.csv

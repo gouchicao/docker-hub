@@ -15,7 +15,7 @@ docker run --runtime=nvidia -it --rm gouchicao/<image list name>
 ### 框架＆工具
 * [tensorflow:2.2.0-gpu-jupyter-opencv-pillow-wget-git-nano](dockerfile/tensorflow2-gpu-jupyter-opencv4-pillow-wget-curl-git-nano)
 * [tensorflow2-yolov4-tflite](dockerfile/tensorflow2-yolov4-tflite)
-* [keras-retinanet](dockerfile/keras-retinanet)
+* [keras-retinanet](keras-retinanet/Dockerfile)
 
 ### 软路由
 * [lede](dockerfile/openwrt-lede)

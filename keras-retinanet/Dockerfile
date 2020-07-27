@@ -11,3 +11,6 @@ WORKDIR /keras-retinanet
 RUN pip install keras==2.3.1 && \
     pip install . && \
     python setup.py build_ext --inplace
+
+COPY voc2csv.py ./
+COPY cmd ./
