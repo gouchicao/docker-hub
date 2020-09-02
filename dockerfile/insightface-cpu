@@ -1,0 +1,38 @@
+FROM gouchicao/ubuntu:20.04
+
+#RUN pip3 install --no-cache-dir -i https://mirrors.aliyun.com/pypi/simple/ mxnet
+RUN pip3 install --no-cache-dir mxnet
+
+WORKDIR /
+RUN git clone --recursive https://github.com/deepinsight/insightface.git
+
+# Face Detection
+WORKDIR /insightface/RetinaFace/
+RUN make
+
+WORKDIR /insightface/python-package/
+RUN pip install .
+
+# RetinaFace Cov Face Detector
+WORKDIR /insightface/RetinaFace/
+RUN wget -O retinaface-R50.zip https://www.dropbox.com/s/53ftnlarhyrpkg2/retinaface-R50.zip?dl=0 && \
+    unzip retinaface-R50.zip -d model
+#ADD models/retinaface-R50/* model/
+
+# RetinaFace Anti Cov Face Detector
+WORKDIR /insightface/RetinaFaceAntiCov/
+RUN wget -O cov2.zip https://www.dropbox.com/s/6rhhxsbh2qik65k/cov2.zip?dl=0 && \
+    unzip cov2.zip -d model
+#ADD models/cov2/* model/
+
+# Face Alignment
+WORKDIR /insightface/alignment/coordinateReg/
+RUN wget -O 2d106det.zip https://drive.google.com/file/d/1MBWbTEYRhZFzj_O2f2Dc6fWGXFWtbMFw/view?usp=sharing && \
+    unzip 2d106det.zip -d model
+#ADD models/2d106det/* model/
+
+# Face Recognition
+WORKDIR /insightface/
+RUN wget -O model-r100-arcface-ms1m-refine-v2.zip https://www.dropbox.com/s/tj96fsm6t6rq8ye/model-r100-arcface-ms1m-refine-v2.zip?dl=0 && \
+    unzip model-r100-arcface-ms1m-refine-v2.zip -d model
+#ADD models/model-r100-arcface-ms1m-refine-v2/model-r100-ii/* models/model-r100-arcface-ms1m-refine-v2/model-r100-ii/
