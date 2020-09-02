@@ -20,4 +20,7 @@ RUN pip install --no-cache-dir -i https://mirrors.aliyun.com/pypi/simple/ \
 #set your localtime
 RUN ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
+RUN pip install --no-cache-dir -i https://mirrors.aliyun.com/pypi/simple/ \
+    scikit-image scikit-learn scipy numpy matplotlib pandas requests tqdm easydict 
+
 WORKDIR /

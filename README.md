@@ -10,11 +10,16 @@ docker pull gouchicao/<image list name>
 docker run --runtime=nvidia -it --rm gouchicao/<image list name>
 ```
 
-## Image List
+## 容器镜像
+
+## 操作系统
+* [Ubuntu20.04](dockerfile/ubuntu20.04)
 
 ### 框架＆工具
+* [horovod](dockerfile/horovod)
 * [tensorflow:2.2.0-gpu-jupyter-opencv-pillow-wget-git-nano](dockerfile/tensorflow2.2.0-gpu-jupyter-opencv4-pillow-wget-curl-git-nano)
 * [tensorflow:2.3.0-gpu-jupyter-opencv-pillow-wget-git-nano](dockerfile/tensorflow2.3.0-gpu-jupyter-opencv4-pillow-wget-curl-git-nano)
+
 * [tensorflow2-yolov4-tflite](dockerfile/tensorflow2-yolov4-tflite)
 * [keras-retinanet](https://github.com/gouchicao/keras-retinanet/blob/master/Dockerfile)
 
