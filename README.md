@@ -25,6 +25,9 @@ docker run --runtime=nvidia -it --rm gouchicao/<image list name>
     ```
 * [horovod](dockerfile/horovod)
 
+## 目标检测框架
+* [TensorFlow2 Object Detection API](dockerfile/tensorflow-object_detection)
+
 ## 算法 
 * [keras-retinanet](https://github.com/gouchicao/keras-retinanet/blob/master/Dockerfile)
 * [efficientdet](https://github.com/gouchicao/efficientdet/blob/master/dockerfile/efficientdet)
