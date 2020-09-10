@@ -1,0 +1,28 @@
+FROM tensorflow/tensorflow:2.3.0-gpu-jupyter
+
+RUN git clone --depth 1 https://github.com/tensorflow/models
+
+RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list
+
+#E: Failed to fetch https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/InRelease  Clearsigned file isn't valid, got 'NOSPLIT' (does the network require authentication?)
+#E: The repository 'https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64  InRelease' is no longer signed.
+#E: Failed to fetch https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64/InRelease  Clearsigned file isn't valid, got 'NOSPLIT' (does the network require authentication?)
+#E: The repository 'https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64  InRelease' is no longer signed.
+RUN curl -s -L https://developer.download.nvidia.cn/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub | \
+    apt-key add -
+RUN curl -s -L https://nvidia.github.io/nvidia-docker/ubuntu18.04/amd64/nvidia-docker.list | \
+    tee /etc/apt/sources.list.d/nvidia-docker.list
+
+RUN apt-get update && apt-get install -y \
+    protobuf-compiler
+    
+# Install the Object Detection API
+WORKDIR models/research/
+RUN protoc object_detection/protos/*.proto --python_out=. && \
+    cp object_detection/packages/tf2/setup.py . && \
+    python -m pip install -U pip && \
+    python -m pip install .
+
+WORKDIR /tf/models/research/
+
+ENV TF_CPP_MIN_LOG_LEVEL 3
