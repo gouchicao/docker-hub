@@ -1,0 +1,11 @@
+FROM gouchicao/ubuntu:20.04
+LABEL maintainer="wang-junjian@qq.com"
+
+RUN pip install --no-cache-dir -i https://mirrors.aliyun.com/pypi/simple/ \
+    jupyterlab
+
+WORKDIR /
+
+EXPOSE 8888
+
+ENTRYPOINT ["jupyter", "lab", "--no-browser", "--allow-root", "--ip", "0.0.0.0", "--port", "8888"]
