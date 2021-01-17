@@ -1,0 +1,23 @@
+FROM ubuntu:20.04
+LABEL maintainer="wang-junjian@qq.com"
+
+#auto install tzdata(opencv depend)
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list
+RUN apt-get update && apt-get install -y \
+    python3 python3-pip \
+    libglib2.0-dev libgl1-mesa-glx \
+    && rm -rf /var/lib/apt/lists/*
+    
+RUN ln -s /usr/bin/python3 /usr/bin/python && \
+    ln -s /usr/bin/pip3 /usr/bin/pip
+RUN pip install --no-cache-dir -i https://mirrors.aliyun.com/pypi/simple/ \
+    opencv-python opencv-contrib-python
+
+#set your localtime
+RUN ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+WORKDIR /
+
+CMD bash
